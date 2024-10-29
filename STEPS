@@ -1,0 +1,34 @@
+steps :
+sudo apt update
+sudo apt install apache2
+sudo systemctl start apache2
+sudo systemctl enable apache2
+2. Create HTML Pages and Set Up Redirect
+sudo nano /var/www/html/page1.html
+sudo nano /var/www/html/page2.html
+Set up a redirect from page1.html to page2.html. Open the Apache configuration file: sudo nano /etc/apache2/sites-available/000-default.conf
+Add this directive to redirect from page1.html to page2.html:Redirect "/page1.html" "/page2.html"
+sudo systemctl restart apache2
+Set Up Username and Password for a Directory:
+	sudo apt install apache2-utils
+	sudo htpasswd -c /etc/apache2/.htpasswd <username>
+Open Apache's configuration file for editing:  sudo nano /etc/apache2/sites-available/000-default.conf
+Add the following to the configuration file to require a username and password for a specific:
+	<Directory "/var/www/html/secure">
+ 	 AuthType Basic
+  	 AuthName "Restricted Content"
+ 	 AuthUserFile /etc/apache2/.htpasswd
+ 	 Require valid-user
+	</Directory>
+Create the directory:
+	sudo mkdir /var/www/html/secure
+	sudo nano /var/www/html/secure/index.html
+sudo systemctl restart apache2
+To allow your user to edit files:
+	sudo chown -R $USER:$USER /var/www/html/
+Or, if you prefer to give write permission to the directory:
+	sudo chmod -R 755 /var/www/html/
+
+
+	
+
